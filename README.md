@@ -7,7 +7,6 @@
 <span>
 <img src = "https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React"/>
 </span>
-
 <span>
 <img src = "https://img.shields.io/badge/-AntDesign-%230170FE?style=for-the-badge&logo=ant-design&logoColor=white" alt="Ant-Design"/>
 </span>
@@ -16,6 +15,7 @@
 </span>
 </p>
 # json-intl
+
 为react-intl文件提供翻译支持。
 
 ## 安装
