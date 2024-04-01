@@ -717,11 +717,6 @@
     "@types/babel__core" "^7.20.5"
     react-refresh "^0.14.0"
 
-FileSaver@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.npmmirror.com/FileSaver/-/FileSaver-0.10.0.tgz#7def3889944458042ef5df2e9064c88e3d2281c7"
-  integrity sha512-W+syaSPuxeh8yRPinETA4RlBO0ZuyM8IQIln8Y/pYZ136+pxqr64/JRx8rDm3uVqvgQ4xIHgAmZoepujBT1mvg==
-
 acorn-jsx@^5.3.2:
   version "5.3.2"
   resolved "https://registry.npmmirror.com/acorn-jsx/-/acorn-jsx-5.3.2.tgz#7ed5bb55908b3b2f1bc55c6af1653bada7f07937"
