@@ -14,6 +14,7 @@
 <img src = "https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=Cloudflare&logoColor=white" alt="Cloudflare"/>
 </span>
 </p>
+
 # json-intl
 
 为react-intl文件提供翻译支持。
