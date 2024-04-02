@@ -172,7 +172,7 @@ function App() {
 
           <Space>
             <Select
-            suffixIcon={<GlobalOutlined />}
+              suffixIcon={<GlobalOutlined />}
               defaultValue={lang}
               onChange={e => setLang(e)}
               filterOption={filterOption}
