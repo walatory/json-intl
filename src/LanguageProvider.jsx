@@ -42,7 +42,7 @@ export const langMap = new Map([
 export default function LanguageProvider({ children }) {
     
     let nlang = navigator.language;
-    let [nlangJSON, nlocale] = langMap.get(nlang) || (nlang = "en-US" && [enUS, en_US]);
+    let [nlangJSON, nlocale] = langMap.get(nlang) || ((nlang = "en-US") && [enUS, en_US]);
 
     const [lang, setLang] = useState(nlang);
     const [langJson, setLangJson] = useState(nlangJSON);
