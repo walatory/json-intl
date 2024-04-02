@@ -19,7 +19,7 @@ import jaJP from "antd/locale/ja_JP";
 import ptPT from "antd/locale/pt_PT";
 import zhCN from "antd/locale/zh_CN";
 
-export const langList = ["ar-EG","az-AZ","bg-BG","bn-BD","ca-ES","cs-CZ","da-DK","de-DE","el-GR","en-US","es-ES","et-EE","fa-IR","fi-FI","fr-FR","ga-IE","gl-ES","he-IL","hi-IN","hr-HR","hu-HU","hy-AM","id-ID","is-IS","it-IT","ja-JP","ka-GE","kk-KZ","km-KH","kn-IN","ko-KR","lt-LT","lv-LV","mk-MK","ml-IN","mn-MN","ms-MY","my-MM","ne-NP","nl-BE","nl-NL","pl-PL","pt-BR","pt-PT","ro-RO","ru-RU","si-LK","sk-SK","sl-SI","sr-RS","sv-SE","ta-IN","th-TH","tr-TR","uk-UA","ur-PK","uz-UZ","vi-VN","zh-CN"]
+export const langList = ["ar-EG", "az-AZ", "bg-BG", "bn-BD", "ca-ES", "cs-CZ", "da-DK", "de-DE", "el-GR", "en-US", "es-ES", "et-EE", "fa-IR", "fi-FI", "fr-FR", "ga-IE", "gl-ES", "he-IL", "hi-IN", "hr-HR", "hu-HU", "hy-AM", "id-ID", "is-IS", "it-IT", "ja-JP", "ka-GE", "kk-KZ", "km-KH", "kn-IN", "ko-KR", "lt-LT", "lv-LV", "mk-MK", "ml-IN", "mn-MN", "ms-MY", "my-MM", "ne-NP", "nl-BE", "nl-NL", "pl-PL", "pt-BR", "pt-PT", "ro-RO", "ru-RU", "si-LK", "sk-SK", "sl-SI", "sr-RS", "sv-SE", "ta-IN", "th-TH", "tr-TR", "uk-UA", "ur-PK", "uz-UZ", "vi-VN", "zh-CN"]
 
 const LanguageContext = createContext(
     () => []
@@ -38,17 +38,35 @@ export const langMap = new Map([
     ["ja-JP", [jaJP, ja_JP]],
     ["pt-PT", [ptPT, pt_PT]],
     ["zh-CN", [zhCN, zh_CN]],
-  ]);
+]);
+export const shortMap = new Map([
+    ["de", "de-DE"],
+    ["en", "en-US"],
+    ["es", "es-ES"],
+    ["fr", "fr-FR"],
+    ["it", "it-IT"],
+    ["ja", "ja-JP"],
+    ["pt", "pt-PT"],
+    ["zh", "zh-CN"],
+]);
 export default function LanguageProvider({ children }) {
-    
-    let nlang = navigator.language;
-    let [nlangJSON, nlocale] = langMap.get(nlang) || ((nlang = "en-US") && [enUS, en_US]);
+
+    let nlang = localStorage.getItem("lang") || navigator.language;
+    if (nlang && !langMap.get(nlang)) {
+        nlang = shortMap.get(nlang.split("-")[0]);
+    }
+    if (!nlang) {
+        nlang = "en-US";
+    }
+    localStorage.setItem("lang", nlang);
+    let [nlangJSON, nlocale] = langMap.get(nlang);
 
     const [lang, setLang] = useState(nlang);
     const [langJson, setLangJson] = useState(nlangJSON);
     const [locale, setLocale] = useState(nlocale);
 
     useEffect(() => {
+        localStorage.setItem("lang", lang);
         let [locale, txt] = langMap.get(lang) || [enUS, en_US];
         setLocale(locale);
         setLangJson(txt);
