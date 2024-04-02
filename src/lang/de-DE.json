@@ -1,0 +1,17 @@
+{
+  "btn.parse": "Analysieren",
+  "btn.selectFiles": "JSON-Dateien auswählen",
+  "btn.translate": "Übersetzung der Leere",
+  "btn.export": "Exportieren",
+  "label.selectFiles": "{count} Dokumente",
+  "label.selectMainLang": "Sprache auswählen, die auf der Übersetzung basiert",
+  "table.column1": "Platzierung Punkte",
+  "notice.success": "Erfolgreich übersetzt {count}",
+  "notice.fail": "Die Übersetzung ist gescheitert, die Übersetzung {count}",
+  "notice.selectMainLang": "Bitte wählen Sie zuerst die Sprache aus.",
+  "notice.exportNoData": "Keine Daten heruntergeladen.",
+  "btn.addNewLang": "Weitere Sprachen",
+  "select.addNewLang": "Sprache wählen",
+  "notice.selectFiles": "Bitte wählen Sie JSON-Dateien aus.",
+  "label.lang": "Interface Sprache"
+}

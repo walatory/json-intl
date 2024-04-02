@@ -1,0 +1,17 @@
+{
+  "btn.parse": "解析",
+  "btn.selectFiles": "JSON ファイルを選択する",
+  "btn.translate": "空白の翻訳",
+  "btn.export": "輸出",
+  "label.selectFiles": "{count} ドキュメント",
+  "label.selectMainLang": "翻訳に基づく言語の選択",
+  "table.column1": "配置項目",
+  "notice.success": "成功した翻訳{count}",
+  "notice.fail": "翻訳失敗、翻訳済み。{count}",
+  "notice.selectMainLang": "まず、言語を選択してください。",
+  "notice.exportNoData": "データはダウンロードできません。",
+  "btn.addNewLang": "新しい言語追加",
+  "select.addNewLang": "言語選び",
+  "notice.selectFiles": "JSON ファイルを選択してください。",
+  "label.lang": "インターフェイス言語"
+}

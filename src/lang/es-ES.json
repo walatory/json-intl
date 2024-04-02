@@ -1,0 +1,17 @@
+{
+  "btn.parse": "Análisis",
+  "btn.selectFiles": "Selección de documentos de JSON",
+  "btn.translate": "Traducción del vacío",
+  "btn.export": "Exportación",
+  "label.selectFiles": "Documentos Contenidos {count}",
+  "label.selectMainLang": "Elegir el idioma basado en la traducción",
+  "table.column1": "Elementos de configuración",
+  "notice.success": "Una traducción exitosa. {count}",
+  "notice.fail": "La traducción falló, ya está traducida. {count}",
+  "notice.selectMainLang": "Por favor, elija el idioma en base.",
+  "notice.exportNoData": "No hay datos para descargar.",
+  "btn.addNewLang": "Nuevas lenguas adicionales",
+  "select.addNewLang": "Elegir lenguaje",
+  "notice.selectFiles": "Seleccione el archivo JSON.",
+  "label.lang": "Lenguaje de interfaz"
+}

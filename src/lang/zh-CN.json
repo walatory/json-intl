@@ -1,0 +1,17 @@
+{
+  "btn.parse": "解析",
+  "btn.selectFiles": "选择json文件",
+  "btn.translate": "翻译空白处",
+  "btn.export": "导出",
+  "btn.addNewLang": "新增语言",
+  "select.addNewLang": "选择语言",
+  "label.lang": "界面语言",
+  "label.selectFiles": "{count} 份文件",
+  "label.selectMainLang": "选择翻译依据的语言",
+  "table.column1": "配置项",
+  "notice.success": "成功翻译 {count} 处",
+  "notice.fail": "翻译失败，已翻译{count}处",
+  "notice.selectFiles": "请先选择json文件",
+  "notice.selectMainLang": "请先选中依据的语言",
+  "notice.exportNoData": "没有数据可以下载"
+}

@@ -1,8 +1,7 @@
 {
   "name": "json-intl",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "version": "0.1.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -14,7 +13,8 @@
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-intl": "^6.6.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

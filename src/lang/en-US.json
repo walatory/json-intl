@@ -1,0 +1,17 @@
+{
+  "btn.parse": "Show",
+  "btn.selectFiles": "Select the JSON file.",
+  "btn.translate": "Translated blank cells",
+  "btn.export": "Export",
+  "label.selectFiles": "{count} selected",
+  "label.selectMainLang": "Selection of language based on translation",
+  "table.column1": "item",
+  "notice.success": "{count} successful translation.",
+  "notice.fail": "Failed translation, {count} has been translated.",
+  "notice.selectMainLang": "Please select the language based.",
+  "notice.exportNoData": "No data can be downloaded.",
+  "btn.addNewLang": "Add languages file",
+  "select.addNewLang": "Choose the language.",
+  "notice.selectFiles": "Please select JSON file.",
+  "label.lang": "The interface language."
+}

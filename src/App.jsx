@@ -1,13 +1,17 @@
-import { Form, Table, Button, Flex, Space, Upload, Radio, message, ConfigProvider } from 'antd';
+import { Form, Table, Button, Flex, Space, Upload, Radio, message, Typography, Select } from 'antd';
 import './App.css'
 import { useState } from 'react';
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
-import zhCN from "antd/locale/zh_CN";
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useLanguage, langList } from './LanguageProvider';
+import { GlobalOutlined } from "@ant-design/icons";
+const itemIndexName = 'you_cannot_name_like_my_name';
 
 function App() {
   let files = [];
   const [curFiles, setCurFiles] = useState([]);
+  const [newLang, setNewLang] = useState("");
   const [mainName, setMainName] = useState("");
   const [names, setNames] = useState([]);
   const [data, setData] = useState([]);
@@ -15,6 +19,9 @@ function App() {
   const [orgins, setOrgins] = useState([]);
   const [api, holder] = message.useMessage();
   const [trLoading, setTrLoading] = useState(false);
+  const [exLoading, setExLoading] = useState(false);
+  const intl = useIntl();
+  const [lang, setLang] = useLanguage();
   const props = {
     name: 'file',
     multiple: true,
@@ -25,6 +32,10 @@ function App() {
     },
   };
   let click = async () => {
+    if (curFiles.length === 0) {
+      api.info(intl.formatMessage({ id: 'notice.selectFiles' }));
+      return;
+    }
     let v = [];
     for (let file of curFiles) {
       let a = await new Promise((r) => {
@@ -36,14 +47,14 @@ function App() {
         reader.readAsText(file);
       });
       console.log("read " + file.name, a);
-      v.push({ 'name': file.name, 'data': a });
+      v.push({ name: file.name, data: a });
     }
     const data = [];
     const columns = [
       {
-        title: '配置',
-        dataIndex: 'config_aux',
-        key: 'config_aux',
+        title: (<FormattedMessage id="table.column1"></FormattedMessage>),
+        dataIndex: itemIndexName,
+        key: itemIndexName,
         fixed: 'left',
       },
     ];
@@ -58,13 +69,15 @@ function App() {
         if (b in temp) {
           continue;
         }
-        data.push({ 'config_aux': b });
+        let it = {};
+        it[itemIndexName] = b;
+        data.push(it);
         temp[b] = b;
       }
     }
     for (let a of data) {
       for (let b of v) {
-        a[b.name] = b.data[a.config_aux];
+        a[b.name] = b.data[a[itemIndexName]];
       }
     }
     setColumns(columns);
@@ -76,74 +89,131 @@ function App() {
     return fetch(`https://t.x7x7.workers.dev/${fromTo}/${encodeURIComponent(txt)}`);
   }
   let translate = async () => {
-    if(!mainName) {
-      api.info("请先选中依据的语言");
+    if (!mainName) {
+      api.info(intl.formatMessage({ id: 'notice.selectMainLang' }));
       return;
     }
     setTrLoading(true);
     let data2 = [...data];
+    let count = 0;
     try {
       for (let a of data2) {
         for (let b of orgins) {
-          if (!b.data[a.config_aux] && a[mainName]) {
+          let txt = a[mainName];
+          if (!b.data[a[itemIndexName]] && txt) {
             let tr = mainName.substring(0, 2) + "2" + b.name.substring(0, 2);
-            let x = (await (await ft(tr, a[mainName])).json()).response.translated_text;
-            b.data[a.config_aux] = x;
+            let vars = txt.match(/\{.+?\}/g) || [];
+            let x = (await (await ft(tr, txt)).json()).response.translated_text;
+            let xtrim = x.replace(/\s+/g, '');
+            for (let vx of vars) {
+              if (xtrim.indexOf(vx.replace(/\s+/g, '')) < 0) {
+                x += " " + vx;
+              }
+            }
+            b.data[a[itemIndexName]] = x;
             a[b.name] = x;
             setData([...data2]);
+            count += 1;
           }
         }
       }
-    }catch (e) {
-      api.error('翻译失败', e);
+    } catch (e) {
+      api.error(intl.formatMessage({ id: 'notice.fail' }, { count }));
+      console.log("tr error", e);
+      return;
     } finally {
       setTrLoading(false);
     }
+    api.success(intl.formatMessage({ id: 'notice.success' }, { count }));
   }
   let download = async () => {
     if (data.length === 0) {
-      api.info("没有数据可以下载");
+      api.info(intl.formatMessage({ id: 'notice.exportNoData' }));
       return;
     }
     let zip = new JSZip();
     for (let o of orgins) {
       zip.file(o.name, JSON.stringify(o.data, null, 2));
     }
-    zip.generateAsync({ type: "blob" }).then(function (content) {
-      saveAs(content, new Date().getTime() + ".zip");
-    });
+    let content = await zip.generateAsync({ type: "blob" });
+    saveAs(content, new Date().getTime() + ".zip");
   };
+  let addLang = () => {
+    let cs = [...columns];
+    cs.push({
+      title: newLang,
+      dataIndex: newLang,
+      key: newLang,
+    });
+    let os = [...orgins, { name: newLang, data: {} }];
+    setColumns(cs);
+    setData(data);
+    setOrgins(os);
+    setNames([...names, newLang]);
+  };
+  const filterOption = (input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
   return (
     <>
-    <ConfigProvider locale={zhCN}>
-    {holder}
-      <Flex vertical gap={"small"} style={{height: 'calc(100vh - 2rem)'}}>
-        <Flex gap={"large"}>
-            <Button type='primary' onClick={click}>解析</Button>
-          <Upload {...props} showUploadList={false}>
+      {holder}
+      <Flex vertical gap={"small"} style={{ height: 'calc(100vh - 2rem)' }}>
+        <Flex gap={"large"} justify='space-between'>
+          <Flex gap={"large"}>
+            <Upload {...props} showUploadList={false}>
+              <Space>
+                <Button><FormattedMessage id="btn.selectFiles"></FormattedMessage></Button>
+                <Typography.Text><FormattedMessage id="label.selectFiles" values={{ "count": curFiles.length }}></FormattedMessage></Typography.Text>
+              </Space>
+            </Upload>
+            <Button type='primary' onClick={click}><FormattedMessage id="btn.parse"></FormattedMessage></Button>
+            <Button loading={trLoading} type='primary' onClick={translate}><FormattedMessage id="btn.translate"></FormattedMessage></Button>
+            <Button loading={exLoading} type='primary' onClick={e => { setExLoading(true); download(e).then(() => setExLoading(false)) }}><FormattedMessage id="btn.export"></FormattedMessage></Button>
+          </Flex>
+
           <Space>
-            <Button>选中json文件</Button>
-            <label>{curFiles.length} 份文件</label>
-            </Space>
-          </Upload>
+            <Select
+            suffixIcon={<GlobalOutlined />}
+              defaultValue={lang}
+              onChange={e => setLang(e)}
+              filterOption={filterOption}
+              options={[
+                { value: 'zh-CN', label: '中文' },
+                { value: 'en-US', label: 'English' },
+                { value: 'ja-JP', label: '日本語' },
+                { value: 'es-ES', label: 'Español' },
+                { value: 'fr-FR', label: 'Français' },
+                { value: 'de-DE', label: 'Deutsch' },
+                { value: 'it-IT', label: 'Italiano' },
+                { value: 'pt-PT', label: 'Português' },
+              ]}
+            />
+          </Space>
         </Flex>
-        <Space>
-            <Button loading={trLoading} type='primary' onClick={translate}>翻译空白处</Button>
-        <Form
-          layout="inline">
-          <Form.Item label="选中依据语言">
-            <Radio.Group value={mainName} onChange={e => setMainName(e.target.value)}>
-              {names.map(a => (<Radio.Button value={a} key={a}>{a}</Radio.Button>))}
-            </Radio.Group>
-          </Form.Item>
-        </Form>
+        <Flex justify='space-between'>
+          <Form
+            layout="inline">
+            <Form.Item label={intl.formatMessage({ id: 'label.selectMainLang' })}>
+              <Radio.Group value={mainName} onChange={e => setMainName(e.target.value)}>
+                {names.map(a => (<Radio.Button value={a} key={a}>{a}</Radio.Button>))}
+              </Radio.Group>
+            </Form.Item>
+          </Form>
+        </Flex>
+        <Space style={{ width: '100%' }}>
+          <Select
+            showSearch
+            allowClear
+            onChange={e => setNewLang(e)}
+            filterOption={filterOption}
+            placeholder={intl.formatMessage({ id: 'select.addNewLang' })}
+            options={
+              langList.map(e => { return { value: e + ".json", label: e + ".json" } })}
+          />
+          <Button disabled={!newLang} type="primary" onClick={addLang}><FormattedMessage id='btn.addNewLang'></FormattedMessage></Button>
         </Space>
-            <Button type='primary' onClick={download}>导出</Button>
-        <Table style={{overflow: 'auto'}} sticky={true} bordered pagination={{ pageSize: 1000 }} columns={columns} dataSource={data} >
+        <Table style={{ overflow: 'auto' }} sticky={true} bordered pagination={{ pageSize: 1000 }} columns={columns} dataSource={data} >
         </Table>
       </Flex>
-      </ConfigProvider>
     </>
   );
 
