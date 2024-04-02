@@ -177,14 +177,14 @@ function App() {
               onChange={e => setLang(e)}
               filterOption={filterOption}
               options={[
-                { value: 'zh-CN', label: '中文' },
+                { value: 'de-DE', label: 'Deutsch' },
                 { value: 'en-US', label: 'English' },
-                { value: 'ja-JP', label: '日本語' },
                 { value: 'es-ES', label: 'Español' },
                 { value: 'fr-FR', label: 'Français' },
-                { value: 'de-DE', label: 'Deutsch' },
                 { value: 'it-IT', label: 'Italiano' },
+                { value: 'ja-JP', label: '日本語' },
                 { value: 'pt-PT', label: 'Português' },
+                { value: 'zh-CN', label: '中文' },
               ]}
             />
           </Space>
