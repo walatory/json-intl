@@ -86,7 +86,7 @@ function App() {
     setNames(v.map(a => a.name));
   };
   let ft = async (fromTo, txt) => {
-    return fetch(`https://t.x7x7.workers.dev/${fromTo}/${encodeURIComponent(txt)}`);
+    return fetch(`https://t.longwidthhigh.xyz/${fromTo}/${encodeURIComponent(txt)}`);
   }
   let translate = async () => {
     if (!mainName) {
